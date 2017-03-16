@@ -49,7 +49,7 @@ $curIndex = array_search($ID, $ids); //Текущий индекс (индекс
 $count = count($ids); // Длина массива
 $lastIndex = $count - 1; // Последний индекс
 
-//Этот ужас, написанный в ночном полузабытьи, надо переписать )))
+//Переписано более коротко в ущерб читабельности
 for($i=1; $i<=$Qty; $i++) {
 	$next[$i-1] = ($curIndex + $i <= $lastIndex) ? $ids[$curIndex + $i] : $ids[$i-($lastIndex-$curIndex)-1];
 	$prev[$i-1] = ($curIndex - $i >= 0) ? $ids[$curIndex - $i] : $ids[$count+$curIndex-$i];
