@@ -49,19 +49,10 @@ $curIndex = array_search($ID, $ids); //Текущий индекс (индекс
 $count = count($ids); // Длина массива
 $lastIndex = $count - 1; // Последний индекс
 
-//Этот ужас, написанный в ночном полузабытьи, надо переписать )))
+//Переписано более коротко в ущерб читабельности
 for($i=1; $i<=$Qty; $i++) {
-	if($curIndex + $i <= $lastIndex) {
-		$next[$i-1] = $ids[$curIndex + $i]; //id следующего документа
-	} else {
-		$next[$i-1] = $ids[$i-($lastIndex-$curIndex)-1];
-	}
-
-	if($curIndex - $i >= 0) {
-		$prev[$i-1] = $ids[$curIndex - $i]; //id предыдущего документа
-	} else {
-		$prev[$i-1] = $ids[$count+$curIndex-$i];
-	}
+	$next[$i-1] = ($curIndex + $i <= $lastIndex) ? $ids[$curIndex + $i] : $ids[$i-($lastIndex-$curIndex)-1];
+	$prev[$i-1] = ($curIndex - $i >= 0) ? $ids[$curIndex - $i] : $ids[$count+$curIndex-$i];
 }
 
 $TPL = DLTemplate::getInstance($modx);
