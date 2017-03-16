@@ -5,7 +5,7 @@
  * вывод соседних ресурсов с шаблонизацией (множественная кольцевая перелинковка)
  *
  * @version   0.1
- * @CMS version MODx Evo 7.1.6
+ * CMS version MODx Evo 7.1.6
  * 15.02.2017
  * 
  * @author Aharito http://aharito.ru на основе DLPrevNext @author Agel_Nash <Agel_Nash@xaker.ru>
