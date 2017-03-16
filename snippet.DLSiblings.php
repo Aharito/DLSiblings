@@ -10,8 +10,8 @@
  * 
  * @author Aharito http://aharito.ru на основе DLPrevNext @author Agel_Nash <Agel_Nash@xaker.ru>
  *
- * @param int $Qty Кол-во соседей с каждой стороны, default $Qty=`2`
- * @param string $ownerTPL Шаблон-обертка, должен содержать плейсхолдер [+wrap+], default $ownerTPL=`@CODE:<div>[+wrap+]</div>`
+ * @param int &Qty Кол-во соседей с каждой стороны, default $Qty=`2`
+ * @param string &ownerTPL Шаблон-обертка, должен содержать плейсхолдер [+wrap+], default $ownerTPL=`@CODE:<div>[+wrap+]</div>`
  * @NOTE остальные параметры - как у DocLister
  *
  * @TODO переписать всё по-человечески :)
