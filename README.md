@@ -1,7 +1,8 @@
 # DLSiblings
+### Вывод соседних ресурсов с шаблонизацией (множественная кольцевая перелинковка)
 Попробуем сделать Вики. Ё-моё, ну и морока оказалась с непривычки...
 
-# Параметры и примеры вызова сниппета DLSiblings
+## Параметры и примеры вызова сниппета DLSiblings
 
 @author Aharito http://aharito.ru \(на основе DLPrevNext @author Agel_Nash <Agel_Nash@xaker.ru>\)
 
@@ -68,9 +69,6 @@
 		&tvList=`article_intro_img,h1`
 		&prepare=`FastImageTVPreviews`
 	]]
-
-
- 
 **Результат работы примера 2\):**
 
 ![image](https://cloud.githubusercontent.com/assets/6253807/24011145/8132a304-0aac-11e7-9ab9-2e1368cb0647.png)
