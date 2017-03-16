@@ -70,7 +70,7 @@
 	]]
 
 
-
+ 
 **Результат работы примера 2\):**
 
 ![image](https://cloud.githubusercontent.com/assets/6253807/24011145/8132a304-0aac-11e7-9ab9-2e1368cb0647.png)
