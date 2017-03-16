@@ -13,9 +13,7 @@
  * @param int &Qty Кол-во соседей с каждой стороны, default &Qty=`2`
  * @param string &ownerTPL Шаблон-обертка, должен содержать плейсхолдер [+wrap+], default &ownerTPL=`@CODE:<div>[+wrap+]</div>`
  * @NOTE остальные параметры - как у DocLister
- *
- * @TODO переписать всё по-человечески :)
- * 
+ * @TODO переписать всё по-человечески :) 
  * @example
  *       [[DLSiblings? &idType=`parents` &parents=`[*parent*]` &tpl=`@CODE: <a href="[+url+]">[+tv_h1+]</a><br>` &Qty=`2` &tvList=`h1` ]]
 **/
