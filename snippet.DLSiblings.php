@@ -46,8 +46,8 @@ $lastIndex = $count - 1; // Последний индекс
 
 //Переписано более коротко в ущерб читабельности
 for($i=1; $i<=$Qty; $i++) {
-	$next[$i-1] = ($curIndex + $i <= $lastIndex) ? $ids[$curIndex + $i] : $ids[$i-($lastIndex-$curIndex)-1];
-	$prev[$i-1] = ($curIndex - $i >= 0) ? $ids[$curIndex - $i] : $ids[$count+$curIndex-$i];
+	$next[$i-1] = ($curIndex + $i <= $lastIndex) ? $ids[$curIndex + $i] : $ids[$i - ($lastIndex - $curIndex) - 1];
+	$prev[$i-1] = ($curIndex - $i >= 0) ? $ids[$curIndex - $i] : $ids[$count + $curIndex - $i];
 }
 
 $TPL = DLTemplate::getInstance($modx);
