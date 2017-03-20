@@ -13,7 +13,6 @@
  * @param int &Qty Кол-во соседей с каждой стороны, default &Qty=`2`
  * @param string &ownerTPL Шаблон-обертка, должен содержать плейсхолдер [+wrap+], default &ownerTPL=`@CODE:<div>[+wrap+]</div>`
  * @NOTE остальные параметры - как у DocLister
- * @TODO переписать всё по-человечески :) 
  * @example
  *       [[DLSiblings? &idType=`parents` &parents=`[*parent*]` &tpl=`@CODE: <a href="[+url+]">[+tv_h1+]</a><br>` &Qty=`2` &tvList=`h1` ]]
 **/
@@ -46,15 +45,15 @@ $lastIndex = $count - 1; // Последний индекс
 
 $TPL = DLTemplate::getInstance($modx);
 
-if(($count - 1) <= $Qty*2) { // Если длина выборки за исключением текущего элемента меньше нужного кол-ва
-	
+if(($count - 1) <= $Qty*2) { // Если длина выборки (за исключением текущего элемента) меньше нужного кол-ва
+	// То просто выводим все элементы выборки
 	for($i=0; $i<=$lastIndex; $i++) {
 		$out .= ($curIndex == $i) ? "" : $TPL->parseChunk($tpl, $children[$ids[$i]]);
 	}
 	
 } else {
 
-	//Переписано более коротко в ущерб читабельности
+	// Иначе ищем соседей
 	for($i=1; $i<=$Qty; $i++) {
 		$next[$i-1] = ($curIndex + $i <= $lastIndex) ? $ids[$curIndex + $i] : $ids[$i - ($lastIndex - $curIndex) - 1];
 		$prev[$i-1] = ($curIndex - $i >= 0) ? $ids[$curIndex - $i] : $ids[$count + $curIndex - $i];
