@@ -69,4 +69,3 @@ if(($count - 1) <= $Qty*2) { // Если длина выборки (за иск�
 }
 
 return $TPL->parseChunk( $ownerTPL, array('wrap' => $out) );
-?>
