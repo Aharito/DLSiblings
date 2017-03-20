@@ -42,18 +42,18 @@ $ids = array_keys($children); //Индексный массив ID в выбор
 $curIndex = array_search($ID, $ids); //Текущий индекс (индекс текущего ID)
 
 $count = count($ids); // Длина массива
+$lastIndex = $count - 1; // Последний индекс
 
 $TPL = DLTemplate::getInstance($modx);
 
-if(($count - 1) <= $Qty*2) { // Если длина выборки мала
+if(($count - 1) <= $Qty*2) { // Если длина выборки за исключением текущего элемента меньше нужного кол-ва
 	
-	for($i=0; $i<=$count-1; $i++) {
+	for($i=0; $i<=$lastIndex; $i++) {
 		$out .= ($curIndex == $i) ? "" : $TPL->parseChunk($tpl, $children[$ids[$i]]);
 	}
 	
 } else {
-	$lastIndex = $count - 1; // Последний индекс
-	
+
 	//Переписано более коротко в ущерб читабельности
 	for($i=1; $i<=$Qty; $i++) {
 		$next[$i-1] = ($curIndex + $i <= $lastIndex) ? $ids[$curIndex + $i] : $ids[$i - ($lastIndex - $curIndex) - 1];
