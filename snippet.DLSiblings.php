@@ -17,10 +17,10 @@
  * @example
  *       [[DLSiblings? &idType=`parents` &parents=`[*parent*]` &tpl=`@CODE: <a href="[+url+]">[+tv_h1+]</a><br>` &Qty=`2` &tvList=`h1` ]]
 **/
-
-
-if ( ! defined('MODX_BASE_PATH')) {
-    die('HACK???');
+	
+	
+	if ( ! defined('MODX_BASE_PATH')) {
+	die('HACK???');
 }
 
 $ownerTPL = isset($ownerTPL) ? $ownerTPL : '@CODE:<div>[+wrap+]</div>'; //Дефолтное значение &ownerTPL
@@ -42,21 +42,32 @@ $ids = array_keys($children); //Индексный массив ID в выбор
 $curIndex = array_search($ID, $ids); //Текущий индекс (индекс текущего ID)
 
 $count = count($ids); // Длина массива
-$lastIndex = $count - 1; // Последний индекс
-
-//Переписано более коротко в ущерб читабельности
-for($i=1; $i<=$Qty; $i++) {
-	$next[$i-1] = ($curIndex + $i <= $lastIndex) ? $ids[$curIndex + $i] : $ids[$i - ($lastIndex - $curIndex) - 1];
-	$prev[$i-1] = ($curIndex - $i >= 0) ? $ids[$curIndex - $i] : $ids[$count + $curIndex - $i];
-}
 
 $TPL = DLTemplate::getInstance($modx);
 
-for($i=1; $i<=$Qty; $i++) {
-	$prevOut .= $TPL->parseChunk($tpl, $children[$prev[$i-1]]);
-	$nextOut .= $TPL->parseChunk($tpl, $children[$next[$i-1]]);
+if(($count - 1) <= $Qty*2) { // Если длина выборки мала
+	
+	for($i=0; $i<=$count-1; $i++) {
+		$out .= ($curIndex == $i) ? "" : $TPL->parseChunk($tpl, $children[$ids[$i]]);
+	}
+	
+} else {
+	$lastIndex = $count - 1; // Последний индекс
+	
+	//Переписано более коротко в ущерб читабельности
+	for($i=1; $i<=$Qty; $i++) {
+		$next[$i-1] = ($curIndex + $i <= $lastIndex) ? $ids[$curIndex + $i] : $ids[$i - ($lastIndex - $curIndex) - 1];
+		$prev[$i-1] = ($curIndex - $i >= 0) ? $ids[$curIndex - $i] : $ids[$count + $curIndex - $i];
+	}
+	
+	for($i=1; $i<=$Qty; $i++) {
+		$prevOut .= $TPL->parseChunk($tpl, $children[$prev[$i-1]]);
+		$nextOut .= $TPL->parseChunk($tpl, $children[$next[$i-1]]);
+	}
+	
+	$out = $prevOut.$nextOut;
+	
 }
 
-$out = $prevOut.$nextOut;
-
 return $TPL->parseChunk( $ownerTPL, array('wrap' => $out) );
+?>
