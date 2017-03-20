@@ -37,7 +37,7 @@
 	]]
 
 
-2\) Более сложный пример с prepare и превьюшками FastImageTV
+2\) Более сложный пример с prepare и превьюшками FastImage
 
 	[[DLSiblings?
 		&idType=`parents`
@@ -63,7 +63,7 @@
 		</div>`
 		&Qty=`2`
 		&tvList=`article_intro_img,h1`
-		&prepare=`FastImageTVPreviews`
+		&prepare=`FastImagePreviews`
 	]]
 **Результат работы примера 2\):**
 
