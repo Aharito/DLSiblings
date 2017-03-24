@@ -18,7 +18,7 @@
 **/
 	
 	
-	if ( ! defined('MODX_BASE_PATH')) {
+if ( ! defined('MODX_BASE_PATH')) {
 	die('HACK???');
 }
 
@@ -45,27 +45,37 @@ $lastIndex = $count - 1; // Последний индекс
 
 $TPL = DLTemplate::getInstance($modx);
 
-if(($count - 1) <= $Qty*2) { // Если длина выборки (за исключением текущего элемента) меньше нужного кол-ва
-	// То просто выводим все элементы выборки
-	for($i=0; $i<=$lastIndex; $i++) {
-		$out .= ($curIndex == $i) ? "" : $TPL->parseChunk($tpl, $children[$ids[$i]]);
+if($count > 1) {
+
+	if(($count - 1) <= $Qty*2) { // Если длина выборки (за исключением текущего элемента) меньше нужного кол-ва
+		// То просто выводим все элементы выборки
+		for($i=0; $i<=$lastIndex; $i++) {
+			$out .= ($curIndex == $i) ? "" : $TPL->parseChunk($tpl, $children[$ids[$i]]);
+		}
+
+	} else {
+
+		// Иначе ищем соседей
+		for($i=1; $i<=$Qty; $i++) {
+			$next[$i-1] = ($curIndex + $i <= $lastIndex) ? $ids[$curIndex + $i] : $ids[$i - ($lastIndex - $curIndex) - 1];
+			$prev[$i-1] = ($curIndex - $i >= 0) ? $ids[$curIndex - $i] : $ids[$count + $curIndex - $i];
+		}
+
+		for($i=1; $i<=$Qty; $i++) {
+			$prevOut .= $TPL->parseChunk($tpl, $children[$prev[$i-1]]);
+			$nextOut .= $TPL->parseChunk($tpl, $children[$next[$i-1]]);
+		}
+
+		$out = $prevOut.$nextOut;
+
 	}
-	
+	return $TPL->parseChunk( $ownerTPL, array('wrap' => $out) );
 } else {
-
-	// Иначе ищем соседей
-	for($i=1; $i<=$Qty; $i++) {
-		$next[$i-1] = ($curIndex + $i <= $lastIndex) ? $ids[$curIndex + $i] : $ids[$i - ($lastIndex - $curIndex) - 1];
-		$prev[$i-1] = ($curIndex - $i >= 0) ? $ids[$curIndex - $i] : $ids[$count + $curIndex - $i];
-	}
 	
-	for($i=1; $i<=$Qty; $i++) {
-		$prevOut .= $TPL->parseChunk($tpl, $children[$prev[$i-1]]);
-		$nextOut .= $TPL->parseChunk($tpl, $children[$next[$i-1]]);
-	}
+	// Если задан noneTPL, парсим его без параметров
+	if(isset($params['noneTPL'])) $out = $TPL->parseChunk( $noneTPL, array() );
+	// Если noneWrapOuter не задано или задано как 1, то "нулевой" результат оборачиваем в ownerTPL (копируем поведение ДокЛистер)
+	$out = ( (!isset($params['noneWrapOuter']) || $params['noneWrapOuter'] == 1) && !empty($params['ownerTPL'])) ? $TPL->parseChunk( $ownerTPL, array('wrap' => $out) ) : $out;
 	
-	$out = $prevOut.$nextOut;
-	
+	return $out;
 }
-
-return $TPL->parseChunk( $ownerTPL, array('wrap' => $out) );
