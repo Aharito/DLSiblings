@@ -22,7 +22,7 @@ if ( ! defined('MODX_BASE_PATH')) {
 	die('HACK???');
 }
 
-$ownerTPL = isset($ownerTPL) ? $ownerTPL : '@CODE:<div>[+wrap+]</div>'; //Дефолтное значение &ownerTPL
+$ownerTPL = isset($ownerTPL) ? $ownerTPL : '@CODE:[+wrap+]'; //Дефолтное значение &ownerTPL
 $Qty = isset($Qty) ? $Qty : 2; //Дефолтное значение &Qty
 
 $out = $prevOut = $nextOut = "";
@@ -45,7 +45,7 @@ $lastIndex = $count - 1; // Последний индекс
 
 $TPL = DLTemplate::getInstance($modx);
 
-if($count > 1) {
+if($count-1 > 0) { // Если длина выборки (за исключением текущего элемента) больше 0
 
 	if(($count - 1) <= $Qty*2) { // Если длина выборки (за исключением текущего элемента) меньше нужного кол-ва
 		// То просто выводим все элементы выборки
@@ -70,12 +70,16 @@ if($count > 1) {
 
 	}
 	return $TPL->parseChunk( $ownerTPL, array('wrap' => $out) );
-} else {
+	
+} else { // Если длина выборки (за исключением текущего элемента) <= 0 (нет элементов, кроме текущего, или вообще нет)
 	
 	// Если задан noneTPL, парсим его без параметров
 	if(isset($params['noneTPL'])) $out = $TPL->parseChunk( $noneTPL, array() );
-	// Если noneWrapOuter не задано или задано как 1, то "нулевой" результат оборачиваем в ownerTPL (копируем поведение ДокЛистер)
-	$out = ( (!isset($params['noneWrapOuter']) || $params['noneWrapOuter'] == 1) && !empty($params['ownerTPL'])) ? $TPL->parseChunk( $ownerTPL, array('wrap' => $out) ) : $out;
+	
+	// Если noneWrapOuter не задано или задано как 1, и ownerTPL не пустой
+	if( (!isset($params['noneWrapOuter']) || $params['noneWrapOuter'] == 1) && !empty($params['ownerTPL']) )
+		// то "нулевой" результат оборачиваем в ownerTPL (копируем поведение ДокЛистер)
+		$out = $TPL->parseChunk( $ownerTPL, array('wrap' => $out) );
 	
 	return $out;
 }
