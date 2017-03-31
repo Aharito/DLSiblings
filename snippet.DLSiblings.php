@@ -1,8 +1,8 @@
 <?php
 /**
  * DLSiblings
- * snippet
  * вывод соседних ресурсов с шаблонизацией (множественная кольцевая перелинковка)
+ * @category snippet
  *
  * @version   0.1
  * CMS version MODx Evo 7.1.6
