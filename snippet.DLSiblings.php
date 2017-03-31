@@ -30,7 +30,7 @@ $next = $prev = array();
 
 $ID = $modx->documentIdentifier;
 $params = is_array($modx->Event->params) ? $modx->Event->params : array();
-$params = array_merge( $params, array('api' => '1', 'debug' => '0', 'display' => 'all') );
+$params = array_merge( $params, array('api' => '1', 'debug' => '0', 'display' => 'all') ); // 'display' => 'all', потому что за кол-во отвечает Qty 
 
 $json = $modx->runSnippet("DocLister", $params);
 $children = jsonHelper::jsonDecode($json, array('assoc' => true));
