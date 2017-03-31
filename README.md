@@ -77,11 +77,11 @@
 ![siblings_demo_1](https://cloud.githubusercontent.com/assets/6253807/24569757/ea66affa-1691-11e7-8320-aa726ffd3dbc.png)
 
 ### Скорость работы
-1\)Кол-во запросов и т.д. при кешированном вызове сниппета на кешированном ресурсе на микро-сайте (выборка 4 из 8 статей с сортировкой &orderBy=`if(pub_date=0,createdon,pub_date) DESC`).
+1\) Кол-во запросов и т.д. при **кешированном** вызове сниппета на кешированном ресурсе на микро-сайте (выборка 4 из 8 статей с сортировкой &orderBy=`if(pub_date=0,createdon,pub_date) DESC`).
 
 ![siblings_requests](https://cloud.githubusercontent.com/assets/6253807/24569985/4e7dedd6-1693-11e7-955c-95574150e8de.png)
 
-2\)Кол-во запросов и т.д. при **не**кешированном вызове сниппета на кешированном ресурсе на микро-сайте (выборка 4 из 8 статей с сортировкой &orderBy=`if(pub_date=0,createdon,pub_date) DESC`).
+2\) Кол-во запросов и т.д. при **некешированном** вызове сниппета на кешированном ресурсе на микро-сайте (выборка 4 из 8 статей с сортировкой &orderBy=`if(pub_date=0,createdon,pub_date) DESC`).
 
 ![siblings_requests_nocache](https://cloud.githubusercontent.com/assets/6253807/24570665/e1272e60-1696-11e7-8b7d-832009a2be07.png)
 
