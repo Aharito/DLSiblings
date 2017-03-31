@@ -67,9 +67,10 @@
 		&tvList=`article_intro_img,h1`
 		&prepare=`FastImagePreviews`
 	]]
-**Результат работы примера 2\):**
 
-![image](https://cloud.githubusercontent.com/assets/6253807/24011145/8132a304-0aac-11e7-9ab9-2e1368cb0647.png)
+## Результат работы примера \#2
+
+![siblings_demo_1](https://cloud.githubusercontent.com/assets/6253807/24569757/ea66affa-1691-11e7-8320-aa726ffd3dbc.png)
 
 **Примечание:** Это только примеры. Для того, чтобы они заработали на вашем сайте, у вас должны быть такие же TV и такие же prepare-сниппеты.
 
