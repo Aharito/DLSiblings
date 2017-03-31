@@ -62,7 +62,7 @@ if($count-1 > 0) { // Если длина выборки (за исключен�
 		}
 
 		for($i=1; $i<=$Qty; $i++) {
-			$prevOut .= $TPL->parseChunk($tpl, $children[$prev[$i-1]]);
+			$prevOut .= $TPL->parseChunk($tpl, $children[$prev[$Qty-$i]]);
 			$nextOut .= $TPL->parseChunk($tpl, $children[$next[$i-1]]);
 		}
 
