@@ -34,9 +34,9 @@ $params = array_merge( $params, array('api' => '1', 'debug' => '0', 'display' =>
 
 $json = $modx->runSnippet("DocLister", $params);
 $children = jsonHelper::jsonDecode($json, array('assoc' => true));
-$children = is_array($children) ? $children : array(); // Тут проверка, что вернулся корректный массив
+$children = is_array($children) ? $children : array(); // Тут проверка, что вернулся массив
 
-$ids = array_keys($children); //Индексный массив ID в выборке
+$ids = array_keys($children); //Индексный массив ID в выборке (потом избавиться от него через prev-next)
 
 $curIndex = array_search($ID, $ids); //Текущий индекс (индекс текущего ID)
 
