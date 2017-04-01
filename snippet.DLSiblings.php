@@ -12,7 +12,14 @@
  *
  * @param int &Qty Кол-во соседей с каждой стороны, default &Qty=`2`
  * @param string &ownerTPL Шаблон-обертка, должен содержать плейсхолдер [+wrap+], default &ownerTPL=`@CODE:<div>[+wrap+]</div>`
- * @NOTE остальные параметры - как у DocLister
+ * @param string &tpl Шаблон элемента как в DocLister.
+ * @param string &noneTPL - как в DocLister, шаблон с информацией, что ничего нет, default - пусто.
+ * @param int &noneWrapOuter (0|1) - как в DocLister, оборачивать ли шаблон noneTPL в обёртку ownerTPL.
+ * Параметр ownerTPLимеет смысл, только если ничего не нашлось и при этом задан ownerTPL.
+ * 
+ * @NOTE: Другие шаблоны из набора DocLister пока не используются.
+ * @NOTE: Остальные параметры - как у DocLister
+ *
  * @example
  *       [[DLSiblings? &idType=`parents` &parents=`[*parent*]` &tpl=`@CODE: <a href="[+url+]">[+tv_h1+]</a><br>` &Qty=`2` &tvList=`h1` ]]
 **/
