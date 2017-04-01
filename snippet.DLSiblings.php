@@ -70,9 +70,11 @@ if($count-1 > 0) {// Если длина выборки (за исключени
 			/**
 			 * Для Next
 			 * Если "перескока" на начало нет, то индекс вычисляется как $curIndex + $i
-			 * Если из конца $ids перескочили на его начало, то индекс считаем как $i - ($lastIndex - $curIndex) - 1
+			 * Если из хвоста $ids перескочили на его начало, то индекс считаем как $i - ($lastIndex - $curIndex) - 1
 			**/
-			$index = ($curIndex + $i <= $lastIndex) ? $curIndex + $i : $i - ($lastIndex - $curIndex) - 1;			
+			$index = ($curIndex + $i <= $lastIndex) ? $curIndex + $i : $i - ($lastIndex - $curIndex) - 1;
+			
+			// Дополняем массив $siblings с теми же индексами и значениями, как у $ids
 			$siblings[$index] = $ids[$index];
 
 		}
@@ -96,7 +98,7 @@ if($count-1 > 0) {// Если длина выборки (за исключени
 
 	}
         
-	// Оборачиваем в owberTPL
+	// Оборачиваем в ownerTPL
 	$out = $TPL->parseChunk( $ownerTPL, array('wrap' => $out) );
 
 } else { // Если длина выборки (за исключением текущего элемента) <= 0 (нет элементов, кроме текущего, или вообще нет)
