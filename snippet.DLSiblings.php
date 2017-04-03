@@ -10,23 +10,23 @@
  * 
  * @author Aharito http://aharito.ru на основе DLPrevNext @author Agel_Nash <Agel_Nash@xaker.ru>
  *
- * @param int &Qty Кол-во соседей с каждой стороны, имеет приоритет над &prevQty и &nextQty, default &Qty=`2`
- * @param int &prevQty Кол-во соседей-предшественников. Приоритет меньше $Qty, default &prevQty=`2` 
- * @param int &nextQty Кол-во соседей-последователей. Приоритет меньше $Qty, default &nextQty=`2` 
- * @param string &ownerTPL Шаблон-обертка, должен содержать плейсхолдер [+wrap+], default &ownerTPL=`@CODE:<div>[+wrap+]</div>`
- * @param string &tpl Шаблон элемента как в DocLister.
- * @param string &noneTPL Шаблон с информацией, что ничего нет как в DocLister,  default - пусто.
+ * @params &idType, &parents, &documents, &ignoreEmpty - как в DocLister 
+ * @param int &Qty Кол-во соседей с каждой стороны, имеет приоритет над &prevQty и &nextQty, default 2
+ * @param int &prevQty Кол-во соседей-предшественников. Приоритет меньше $Qty, default 2
+ * @param int &nextQty Кол-во соседей-последователей. Приоритет меньше $Qty, default 2
+ * @param string &ownerTPL Шаблон-обертка, должен содержать плейсхолдер [+wrap+], default null (вывод не оборачивается в ownerTPL)
+ * @params string &tpl, &tplOdd и &tplEven, &tplIdN, &tplFirst и &tplLast Шаблоны элемента как в DocLister в порядке увеличения приоритета
+ * @param string &noneTPL Шаблон с информацией, что ничего нет как в DocLister,  default null (пусто).
  * @param (0|1) &noneWrapOuter Как в DocLister, оборачивать ли шаблон noneTPL в обёртку ownerTPL.
  * Параметр &noneWrapOuter имеет смысл, только если ничего не нашлось и при этом задан ownerTPL.
  * @param string &prepare Как в DocLister.
  * 
- * @NOTE: Другие шаблоны из набора DocLister пока не используются.
+ * @NOTE: Другие шаблоны из набора DocLister не используются.
  * @NOTE: Остальные параметры - как у DocLister
  *
  * @example
- *       [[DLSiblings? &idType=`parents` &parents=`[*parent*]` &tpl=`@CODE: <a href="[+url+]">[+tv_h1+]</a><br>` &Qty=`2` &tvList=`h1` ]]
+ *       [[DLSiblings? &idType=`parents` &parents=`[*parent*]` &tpl=`@CODE:<a href="[+url+]">[+tv_h1+]</a><br>` &Qty=`2` &tvList=`h1` ]]
 **/
-
 
 if ( ! defined('MODX_BASE_PATH')) { die('HACK???'); }
 
@@ -125,33 +125,29 @@ if($count-1 > 0) {// Если длина выборки (за исключени
 	     * Теперь он отсортирован точно так же, как и было в выходных данных ДокЛистера
 		 */
 
-		/** Выводим все элементы $siblings с шаблонизацией
-		 * $i - номер итерации как в DL
-		 * @NOTE: @FIXME:??? В DL заложено неочевидное поведение: итерация считается с 0,
-		 * а четность-нечетность определяется, как если бы итерация считалась с 1,
-		 * то есть документ, выводимый на итерации 0, считается нечетным, потому что он как бы 1-й по порядку.
-		 * Поэтому для документа, выводимого на итерации 0, действует tplId0 и tplOdd.
-		 *
-		 * Это логично, но при этом шаблон tplFirst применяется для $i==1, то есть для второго по порядку (см. коммент ниже)
-		 */
-		$i = 0;
+		/**
+		 * Выводим все элементы $siblings с шаблонизацией
+		 * $i - номер итерации начиная с 1
+		 */		
+		$i = 1;
 		
 		foreach($siblings as $value) {
-			$iterationName = ($i % 2 == 0) ? 'Odd' : 'Even';
+			$iterationName = ($i % 2 == 1) ? 'Odd' : 'Even';
 			
 			// Какой шаблон выводить на этой итерации?
 			$renderTPL = $tpl;
-			$renderTPL = \APIhelpers::getkey($params, 'tplId'.$i, $renderTPL);
-			$renderTPL = \APIhelpers::getkey($params, 'tpl'.$iterationName, $renderTPL);
-			if ($i == 0) {
-				// В DL здесь почему-то стоит $i==1 https://github.com/AgelxNash/DocLister/blob/master/assets/snippets/DocLister/core/DocLister.abstract.php#L1023
-				$renderTPL = \APIhelpers::getkey($params, 'tplFirst', $renderTPL);
-			}/*
-			if ($i == $lastIndex) {
-				$renderTPL = \APIhelpers::getkey($params, 'tplLast', $renderTPL);
-			}	*/		
+			$renderTPL = \APIhelpers::getkey($params, 'tpl'.$iterationName, $renderTPL);	// tplOdd или tplEven
+			$renderTPL = \APIhelpers::getkey($params, 'tplId'.$i, $renderTPL);				// tplIdN начиная с 1
+
+			if ($i == 1) {
+				$renderTPL = \APIhelpers::getkey($params, 'tplFirst', $renderTPL);			// tplFirst
+			}
+			if ($i == $prevQty + $nextQty) {
+				$renderTPL = \APIhelpers::getkey($params, 'tplLast', $renderTPL);			// tplLast
+			}	
 			
 			$out .= $TPL->parseChunk($renderTPL, $children[$value]);			
+			
 			$i++; // Увеличим $i на 1
 		}
 
