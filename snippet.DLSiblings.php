@@ -135,8 +135,9 @@ if($count-1 > 0) {// Если длина выборки (за исключени
 			$iterationName = ($i % 2 == 1) ? 'Odd' : 'Even';
 			
 			// Какой шаблон выводить на этой итерации?
+			// Идут сверху вниз по убыванию приоритета
 			$renderTPL = $tpl;
-			$renderTPL = \APIhelpers::getkey($params, 'tpl'.$iterationName, $renderTPL);	// tplOdd или tplEven
+			$renderTPL = \APIhelpers::getkey($params, 'tpl'.$iterationName, $renderTPL);			// tplOdd или tplEven
 			$renderTPL = \APIhelpers::getkey($params, 'tplId'.$i, $renderTPL);				// tplIdN начиная с 1
 
 			if ($i == 1) {
