@@ -151,7 +151,6 @@ if($count-1 > 0) {// Если длина выборки (за исключени
 				$renderTPL = \APIhelpers::getkey($params, 'tplLast', $renderTPL);
 			}	*/		
 			
-			echo 'tpl'.$iterationName;	
 			$out .= $TPL->parseChunk($renderTPL, $children[$value]);			
 			$i++; // Увеличим $i на 1
 		}
