@@ -28,25 +28,6 @@
  *       [[DLSiblings? &idType=`parents` &parents=`[*parent*]` &tpl=`@CODE:<a href="[+url+]">[+tv_h1+]</a><br>` &Qty=`2` &tvList=`h1` ]]
 **/
 
-/** Для теста:
-[!DLSiblings?
-	&idType=`parents`
-	&parents=`[*parent*]`
-	&ownerTPL=`@CODE:<div>[+wrap+]</div><hr>`
-	&tpl=`@CODE:<p>tpl</p>`
-	//tplEven=`@CODE:<p>tplEven</p>`
-	//tplOdd=`@CODE:<p>tplOdd</p>`
-	&tplId1=`@CODE:<p>tplId1</p>`
-	//tplId4=`@CODE:<p>tplId4</p>`
-	//tplFirst=`@CODE:<p>tplFirst</p>`
-	&tplLast=`@CODE:<p>tplLast</p>`
-	&prevQty=`2`
-	&nextQty=`2`
-	&orderBy=`if(pub_date=0,createdon,pub_date) DESC`
-!]
-**/
-
-
 if ( ! defined('MODX_BASE_PATH')) { die('HACK???'); }
 
 $DLDir = MODX_BASE_PATH . 'assets/snippets/DocLister/';
