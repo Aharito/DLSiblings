@@ -28,26 +28,11 @@
  *       [[DLSiblings? &idType=`parents` &parents=`[*parent*]` &tpl=`@CODE:<a href="[+url+]">[+tv_h1+]</a><br>` &Qty=`2` &tvList=`h1` ]]
 **/
 
-/** Для теста:
-[!DLSiblings?
-    &idType=`parents`
-    &parents=`[*parent*]`
-    &ownerTPL=`@CODE:<div>[+wrap+]</div><hr>`
-    &tpl=`@CODE:<p>tpl</p>`
-    //tplEven=`@CODE:<p>tplEven</p>`
-    //tplOdd=`@CODE:<p>tplOdd</p>`
-    &tplId1=`@CODE:<p>tplId1</p>`
-    //tplId4=`@CODE:<p>tplId4</p>`
-    //tplFirst=`@CODE:<p>tplFirst</p>`
-    &tplLast=`@CODE:<p>tplLast</p>`
-    &prevQty=`2`
-    &nextQty=`2`
-    &orderBy=`if(pub_date=0,createdon,pub_date) DESC`
-!]
-**/
-
-
 if ( ! defined('MODX_BASE_PATH')) { die('HACK???'); }
+
+include_once(MODX_BASE_PATH . 'assets/lib/APIHelpers.class.php');
+$DLDir = MODX_BASE_PATH . 'assets/snippets/DocLister/';
+require_once($DLDir . "core/DocLister.abstract.php");
 
 // Получаем параметры, заданные при вызове сниппета  DLSiblings
 $params = is_array($modx->Event->params) ? $modx->Event->params : array();
@@ -138,10 +123,10 @@ if($count-1 > 0) {// Если длина выборки (за исключени
          * В итоге $siblings - это индексный массив с пропусками индексов, значения - ID ресурсов
          * До сортировки выглядит примерно так: Array ( [6] => 114, [0] => 18, [5] => 109, [1] => 95 )
          */
-    $time[] = microtime(true); // @NOTE:Поиск соседей
+        $time[] = microtime(true); // @NOTE:Поиск соседей
         // Сортируем по индексам (ключам) этот небольшой массив $siblings (не более 8 элементов, а скорее всего 2+2 или 3+3)
         ksort($siblings);
-    $time[] = microtime(true);  // @NOTE:Сортировка соседей
+        $time[] = microtime(true);  // @NOTE:Сортировка соседей
         /**
          * После сортировки выглядит так: Array ( [0] => 18, [1] => 95, [5] => 109, [6] => 114 )
          * Теперь он отсортирован точно так же, как и было в выходных данных ДокЛистера
@@ -194,6 +179,7 @@ if($count-1 > 0) {// Если длина выборки (за исключени
         $out = $TPL->parseChunk( $ownerTPL, array('wrap' => $out) );
 
 }
+
 $time[] = microtime(true); // @NOTE:Шаблонизация
 
 $intervalName = array();
@@ -223,7 +209,7 @@ if ( ($length = count($time) - 1) == count($intervalName) ) {
     }
     $info .= "</tbody></table>";
 
-    return $out.$info;  
+    return $out.$info;
 } else {
     return "<h2>Длины массивов time и intervalName не совпадают!</h2>";
 }
