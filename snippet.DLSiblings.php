@@ -194,7 +194,7 @@ $info = "<h4>Тесты</h4>";
 $info .= '&api = <b>`'.$params['api']."`</b></br>";
 
 $interval = array();
-for ($i=0; $i <= 6; $i++) {
+for ($i=0; $i <= 7; $i++) {
    $interval[] = round((float)$time[$i+1] - (float)$time[$i], 8);
    $info .= $intervalName[$i]." <b>".$interval[$i]."</b><br>";
 }
