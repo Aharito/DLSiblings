@@ -28,10 +28,26 @@
  *       [[DLSiblings? &idType=`parents` &parents=`[*parent*]` &tpl=`@CODE:<a href="[+url+]">[+tv_h1+]</a><br>` &Qty=`2` &tvList=`h1` ]]
 **/
 
-if ( ! defined('MODX_BASE_PATH')) { die('HACK???'); }
+/** Для теста:
+[!DLSiblings?
+    &idType=`parents`
+    &parents=`[*parent*]`
+    &ownerTPL=`@CODE:<div>[+wrap+]</div><hr>`
+    &tpl=`@CODE:<p>tpl</p>`
+    //tplEven=`@CODE:<p>tplEven</p>`
+    //tplOdd=`@CODE:<p>tplOdd</p>`
+    &tplId1=`@CODE:<p>tplId1</p>`
+    //tplId4=`@CODE:<p>tplId4</p>`
+    //tplFirst=`@CODE:<p>tplFirst</p>`
+    &tplLast=`@CODE:<p>tplLast</p>`
+    &prevQty=`2`
+    &nextQty=`2`
+    &orderBy=`if(pub_date=0,createdon,pub_date) DESC`
+!]
+**/
 
-$DLDir = MODX_BASE_PATH . 'assets/snippets/DocLister/';
-require_once($DLDir . "core/DocLister.abstract.php");
+
+if ( ! defined('MODX_BASE_PATH')) { die('HACK???'); }
 
 // Получаем параметры, заданные при вызове сниппета  DLSiblings
 $params = is_array($modx->Event->params) ? $modx->Event->params : array();
@@ -83,99 +99,99 @@ $TPL = DLTemplate::getInstance($modx);
 
 if($count-1 > 0) {// Если длина выборки (за исключением текущего элемента) больше 0
 
-	if(($count - 1) <= $prevQty + $nextQty) { // Если длина выборки (за исключением текущего элемента) меньше нужного кол-ва
-		// То просто выводим все элементы выборки
-		for($i=0; $i<=$lastIndex; $i++) {
-			$out .= ($curIndex == $i) ? "" : $TPL->parseChunk($tpl, $children[$ids[$i]]);
-		}
+    if(($count - 1) <= $prevQty + $nextQty) { // Если длина выборки (за исключением текущего элемента) меньше нужного кол-ва
+        // То просто выводим все элементы выборки
+        for($i=0; $i<=$lastIndex; $i++) {
+            $out .= ($curIndex == $i) ? "" : $TPL->parseChunk($tpl, $children[$ids[$i]]);
+        }
 
-	} else { // Иначе ищем соседей
+    } else { // Иначе ищем соседей
 
-		for($i=1; $i<=$prevQty; $i++) {
+        for($i=1; $i<=$prevQty; $i++) {
 
-			/**
-			 * Для Prev
-			 * Если "перескока" в хвост нет, то индекс вычисляется как $curIndex - $i
-			 * Если из начала $ids перескочили в его хвост, то индекс считаем как $count + $curIndex - $i
-			 */
-			$index = ($curIndex - $i >= 0) ? $curIndex - $i : $count + $curIndex - $i;
+            /**
+             * Для Prev
+             * Если "перескока" в хвост нет, то индекс вычисляется как $curIndex - $i
+             * Если из начала $ids перескочили в его хвост, то индекс считаем как $count + $curIndex - $i
+             */
+            $index = ($curIndex - $i >= 0) ? $curIndex - $i : $count + $curIndex - $i;
 
-			// Формируем массив $siblings с теми же индексами и значениями, как у $ids ($ids уже упорядочен как надо)
-			$siblings[$index] = $ids[$index];
-		}
+            // Формируем массив $siblings с теми же индексами и значениями, как у $ids ($ids уже упорядочен как надо)
+            $siblings[$index] = $ids[$index];
+        }
 
-		for($i=1; $i<=$nextQty; $i++) {
+        for($i=1; $i<=$nextQty; $i++) {
 
-			/**
-			 * Для Next
-			 * Если "перескока" на начало нет, то индекс вычисляется как $curIndex + $i
-			 * Если из хвоста $ids перескочили на его начало, то индекс считаем как $i - ($lastIndex - $curIndex) - 1
-			 */
-			$index = ($curIndex + $i <= $lastIndex) ? $curIndex + $i : $i - ($lastIndex - $curIndex) - 1;
+            /**
+             * Для Next
+             * Если "перескока" на начало нет, то индекс вычисляется как $curIndex + $i
+             * Если из хвоста $ids перескочили на его начало, то индекс считаем как $i - ($lastIndex - $curIndex) - 1
+             */
+            $index = ($curIndex + $i <= $lastIndex) ? $curIndex + $i : $i - ($lastIndex - $curIndex) - 1;
 
-			// Дополняем массив $siblings с теми же индексами и значениями, как у $ids
-			$siblings[$index] = $ids[$index];
+            // Дополняем массив $siblings с теми же индексами и значениями, как у $ids
+            $siblings[$index] = $ids[$index];
 
-		}
+        }
 
-		/**
-		 * В итоге $siblings - это индексный массив с пропусками индексов, значения - ID ресурсов
-		 * До сортировки выглядит примерно так: Array ( [6] => 114, [0] => 18, [5] => 109, [1] => 95 )
-		 */
-$time[] = microtime(true); // @NOTE:Поиск соседей
-		// Сортируем по индексам (ключам) этот небольшой массив $siblings (не более 8 элементов, а скорее всего 2+2 или 3+3)
-		ksort($siblings);
-	$time[] = microtime(true);	// @NOTE:Сортировка соседей
-		/**
-		 * После сортировки выглядит так: Array ( [0] => 18, [1] => 95, [5] => 109, [6] => 114 )
-	     * Теперь он отсортирован точно так же, как и было в выходных данных ДокЛистера
-		 */
+        /**
+         * В итоге $siblings - это индексный массив с пропусками индексов, значения - ID ресурсов
+         * До сортировки выглядит примерно так: Array ( [6] => 114, [0] => 18, [5] => 109, [1] => 95 )
+         */
+    $time[] = microtime(true); // @NOTE:Поиск соседей
+        // Сортируем по индексам (ключам) этот небольшой массив $siblings (не более 8 элементов, а скорее всего 2+2 или 3+3)
+        ksort($siblings);
+    $time[] = microtime(true);  // @NOTE:Сортировка соседей
+        /**
+         * После сортировки выглядит так: Array ( [0] => 18, [1] => 95, [5] => 109, [6] => 114 )
+         * Теперь он отсортирован точно так же, как и было в выходных данных ДокЛистера
+         */
 
-		/**
-		 * Выводим все элементы $siblings с шаблонизацией
-		 * $i - номер итерации начиная с 1
-		 */
-		$i = 1;
+        /**
+         * Выводим все элементы $siblings с шаблонизацией
+         * $i - номер итерации начиная с 1
+         */
+        $i = 1;
 
-		foreach($siblings as $value) {
-			$iterationName = ($i % 2 == 1) ? 'Odd' : 'Even';
+        foreach($siblings as $value) {
+            $iterationName = ($i % 2 == 1) ? 'Odd' : 'Even';
 
-			// Какой шаблон выводить на этой итерации?
-			// Идут сверху вниз по убыванию приоритета
-			$renderTPL = $tpl;																// tpl
-			$renderTPL = \APIhelpers::getkey($params, 'tpl'.$iterationName, $renderTPL);	// tplOdd или tplEven
-			$renderTPL = \APIhelpers::getkey($params, 'tplId'.$i, $renderTPL);				// tplIdN начиная с 1
+            // Какой шаблон выводить на этой итерации?
+            // Идут сверху вниз по убыванию приоритета
+            $renderTPL = $tpl;                                                              // tpl
+            $renderTPL = \APIhelpers::getkey($params, 'tpl'.$iterationName, $renderTPL);    // tplOdd или tplEven
+            $renderTPL = \APIhelpers::getkey($params, 'tplId'.$i, $renderTPL);              // tplIdN начиная с 1
 
-			if ($i == 1) {
-				$renderTPL = \APIhelpers::getkey($params, 'tplFirst', $renderTPL);			// tplFirst
-			}
-			if ($i == $prevQty + $nextQty) {
-				$renderTPL = \APIhelpers::getkey($params, 'tplLast', $renderTPL);			// tplLast
-			}
+            if ($i == 1) {
+                $renderTPL = \APIhelpers::getkey($params, 'tplFirst', $renderTPL);          // tplFirst
+            }
+            if ($i == $prevQty + $nextQty) {
+                $renderTPL = \APIhelpers::getkey($params, 'tplLast', $renderTPL);           // tplLast
+            }
 
-			$out .= $TPL->parseChunk($renderTPL, $children[$value]);
+            $out .= $TPL->parseChunk($renderTPL, $children[$value]);
 
-			$i++; // Увеличим $i на 1
-		}
+            $i++; // Увеличим $i на 1
+        }
 
-	}
+    }
 
-	// Оборачиваем в ownerTPL, если он не null
-	if( $ownerTPL )
-		$out = $TPL->parseChunk( $ownerTPL, array('wrap' => $out) );
+    // Оборачиваем в ownerTPL, если он не null
+    if( $ownerTPL )
+        $out = $TPL->parseChunk( $ownerTPL, array('wrap' => $out) );
 
 } else { // Если длина выборки (за исключением текущего элемента) <= 0 (нет элементов, кроме текущего, или вообще нет)
 
-	// Далее копируем поведение ДокЛистер для параметра &noneWrapOuter и шаблонов &noneTPL и &ownerTPL
+    // Далее копируем поведение ДокЛистер для параметра &noneWrapOuter и шаблонов &noneTPL и &ownerTPL
 
-	// Если noneTPL не null, парсим его без параметров
-	if( $noneTPL )
-		$out = $TPL->parseChunk( $noneTPL, array() );
+    // Если noneTPL не null, парсим его без параметров
+    if( $noneTPL )
+        $out = $TPL->parseChunk( $noneTPL, array() );
 
-	// Если noneWrapOuter не 0, и ownerTPL не null
-	if( $noneWrapOuter && $ownerTPL )
-		// то распарсенный noneTPL оборачиваем в ownerTPL
-		$out = $TPL->parseChunk( $ownerTPL, array('wrap' => $out) );
+    // Если noneWrapOuter не 0, и ownerTPL не null
+    if( $noneWrapOuter && $ownerTPL )
+        // то распарсенный noneTPL оборачиваем в ownerTPL
+        $out = $TPL->parseChunk( $ownerTPL, array('wrap' => $out) );
 
 }
 $time[] = microtime(true); // @NOTE:Шаблонизация
@@ -190,13 +206,24 @@ $intervalName[] = "Поиск соседей";
 $intervalName[] = "Сортировка соседей";
 $intervalName[] = "Шаблонизация";
 
-$info = "<h4>Тесты</h4>";
-$info .= '&api = <b>`'.$params['api']."`</b></br>";
 
-$interval = array();
-for ($i=0; $i <= 7; $i++) {
-   $interval[] = round((float)$time[$i+1] - (float)$time[$i], 8);
-   $info .= $intervalName[$i]." <b>".$interval[$i]."</b><br>";
+if ( ($length = count($time) - 1) == count($intervalName) ) {
+    $info = "<h4>Тесты</h4>";
+    $info .= "<p>&api = <b>`".$params['api']."`</b></p>";
+    $info .= '<table class="table table-striped">';
+    $info .= '<thead><tr><th>#</th><th>Этап</th><th>Время, сек</th></tr></thead>';
+    $info .= "<tbody>";
+    
+    $interval = array();
+    
+    for ($i=0; $i <= $length - 1; $i++) {
+        $num = $i + 1;
+       $interval[] = round((float)$time[$i+1] - (float)$time[$i], 4);
+       $info .= "<tr><th>$num</th><td>$intervalName[$i]</td><td>$interval[$i]</td></tr>";
+    }
+    $info .= "</tbody></table>";
+
+    return $out.$info;  
+} else {
+    return "<h2>Длины массивов time и intervalName не совпадают!</h2>";
 }
-
-return $out.$info;
