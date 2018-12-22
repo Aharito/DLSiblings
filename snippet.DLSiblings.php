@@ -4,7 +4,7 @@
   * вывод соседних ресурсов с шаблонизацией (множественная кольцевая перелинковка)
   * @category snippet
   *
-  * @version   0.3
+  * @version   2.0
   * CMS version MODx Evo 1.4.7
   * @lastupdate 21/12/2017
   *
