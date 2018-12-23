@@ -1,24 +1,26 @@
 <?php
 /**
-  * DLSiblings
-  * вывод соседних ресурсов с шаблонизацией (множественная кольцевая перелинковка)
-  * @category snippet
-  *
-  * @version   2.0.1
-  * CMS version MODx Evo 1.4.7
-  * @lastupdate 21/12/2017
-  *
-  * @author Aharito https://aharito.ru на основе DLPrevNext @author Agel_Nash <Agel_Nash@xaker.ru>
-  *
-  * @param int docid Если задан, то соседи выводятся для этого документа, default id текущего документа
-  * @param int &prevQty Кол-во соседей-предшественников, default 2
-  * @param int &nextQty Кол-во соседей-последователей, default 2
-  *
-  * @NOTE: Остальные параметры - как у DocLister
-  *
-  * @example
-  * [[DLSiblings? &idType=`parents` &parents=`[*parent*]` &ownerTPL=`@CODE:<ul>[+dl.wrap+]</ul>` &tpl=`@CODE:<li><a href="[+url+]">[+title+]</a></li>` &tvList=`diam,vid` &tvSortType=`UNSIGNED, UNSIGNED` &orderBy=`diam ASC` &addWhereList=`c.template = 7` &filters=`AND(tv:vid:=:стальной)` ]]
-  */
+ * DLSiblings
+ * Вывод соседних ресурсов с шаблонизацией (множественная кольцевая перелинковка)
+ * @category snippet
+ *
+ * @version   2.0
+ * CMS version MODx Evo 1.4.7
+ * @lastupdate 21/12/2017
+ *
+ * @author Aharito https://aharito.ru
+ * на основе DLPrevNext @author Agel_Nash <Agel_Nash@xaker.ru>
+ * 
+ * @internal    @installset base, sample 
+ *
+ * @param int &prevQty Кол-во соседей-предшественников, default 2
+ * @param int &nextQty Кол-во соседей-последователей, default 2
+ *
+ * @NOTE: Остальные параметры - как у DocLister
+ *
+ * @example
+ * [[DLSiblings? &idType=`parents` &parents=`[*parent*]` &ownerTPL=`@CODE:<ul>[+dl.wrap+]</ul>` &tpl=`@CODE:<li><a href="[+url+]">[+title+]</a></li>` &tvList=`diam,vid` &tvSortType=`UNSIGNED, UNSIGNED` &orderBy=`diam ASC` &addWhereList=`c.template = 7` &filters=`AND(tv:vid:=:стальной)` ]]
+ */
 
 if ( ! defined('MODX_BASE_PATH')) { die('HACK???'); }
 
@@ -35,7 +37,7 @@ $nextQty = \APIhelpers::getkey($params, 'nextQty', 2);
 
 $out = "";
 $siblings = array();
-$ID = isset($docid) ? $docid : $modx->documentIdentifier;
+$ID = $modx->documentIdentifier;
 // мержим параметры для API-вызова
 $paramsAPI = array_merge( $params, array('api' => 'id', 'display' => '0') );
 
@@ -97,7 +99,7 @@ $paramsRender = array_merge($params, array("idType" => "documents", "documents" 
 unset($paramsRender["parents"]); // На всякий случай удаляем параметр parents
 $out = $modx->runSnippet("DocLister", $paramsRender);
 
-
+$time[] = microtime(true); // @NOTE:Время на отработку 2-го вызова DL (вывод)
 
 $intervalName = array();
 $intervalName[] = "Отработка DL в режиме API";
@@ -106,6 +108,7 @@ $intervalName[] = "Создание индексного массива";
 $intervalName[] = "Поиск текущего индекса";
 $intervalName[] = "Вычисление длины индексного массива";
 $intervalName[] = "Поиск соседей";
+$intervalName[] = "Отработка 2-го вызова DL (вывод)";
 
 if ( ($length = count($time) - 1) == count($intervalName) ) {
     $info = "<h4>Тесты</h4>";
