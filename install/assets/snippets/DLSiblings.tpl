@@ -21,4 +21,4 @@
  * [[DLSiblings? &idType=`parents` &parents=`[*parent*]` &ownerTPL=`@CODE:<ul>[+dl.wrap+]</ul>` &tpl=`@CODE:<li><a href="[+url+]">[+title+]</a></li>` &tvList=`diam,vid` &tvSortType=`UNSIGNED, UNSIGNED` &orderBy=`diam ASC` &addWhereList=`c.template = 7` &filters=`AND(tv:vid:=:стальной)` ]]
  */
   
-return require MODX_BASE_PATH.'assets/snippets/DLSiblings/snippet.dlsiblings.php';
+return require MODX_BASE_PATH.'assets/snippets/DLSiblings/snippet.DLSiblings.php';
