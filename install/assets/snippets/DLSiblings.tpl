@@ -13,7 +13,6 @@
  * 
  * @internal    @installset base, sample 
  *
- * @param int docid Если задан, то соседи выводятся для этого документа, default id текущего документа
  * @param int &prevQty Кол-во соседей-предшественников, default 2
  * @param int &nextQty Кол-во соседей-последователей, default 2
  *
