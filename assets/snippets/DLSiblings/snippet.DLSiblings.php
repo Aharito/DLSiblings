@@ -13,7 +13,6 @@
  * 
  * @internal    @installset base, sample 
  *
- * @param int docid Если задан, то соседи выводятся для этого документа, default id текущего документа
  * @param int &prevQty Кол-во соседей-предшественников, default 2
  * @param int &nextQty Кол-во соседей-последователей, default 2
  *
@@ -38,7 +37,7 @@ $nextQty = \APIhelpers::getkey($params, 'nextQty', 2);
 
 $out = "";
 $siblings = array();
-$ID = isset($docid) ? $docid : $modx->documentIdentifier;
+$ID = $modx->documentIdentifier;
 // мержим параметры для API-вызова
 $paramsAPI = array_merge( $params, array('api' => 'id', 'display' => '0') );
 
