@@ -4,7 +4,7 @@
 
 Разработчик: [Aharito](https://aharito.ru/)
 
-*Подробнее о схеме перелинковки под НЧ-запросы [читайте здесь](https://aharito.ru/seo-prodvizhenie/shema-perelinkovki-stranic-sajta-pod-nch)*
+*Подробнее о схеме перелинковки под НЧ-запросы <a href="https://aharito.ru/seo-prodvizhenie/shema-perelinkovki-stranic-sajta-pod-nch" target="_blank">читайте здесь</a>*
 
 ## Параметры сниппета:
 - **&docid** - Если задан, то соседи выводятся для этого документа, по умолчанию соседи выводятся для текущего документа
