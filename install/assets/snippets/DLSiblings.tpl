@@ -8,7 +8,9 @@
  * CMS version MODx Evo 1.4.7
  * @lastupdate 21/12/2017
  *
- * @author Aharito https://aharito.ru на основе DLPrevNext @author Agel_Nash <Agel_Nash@xaker.ru>
+ * @author Aharito https://aharito.ru
+ * на основе DLPrevNext @author Agel_Nash <Agel_Nash@xaker.ru>
+ * 
  * @internal    @installset base, sample 
  *
  * @param int docid Если задан, то соседи выводятся для этого документа, default id текущего документа
