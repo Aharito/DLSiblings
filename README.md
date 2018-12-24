@@ -4,7 +4,9 @@
 
 Разработчик: [Aharito](https://aharito.ru/)
 
-*Подробнее о кольцевой схеме перелинковки под НЧ-запросы [читайте здесь](https://aharito.ru/seo-prodvizhenie/shema-perelinkovki-stranic-sajta-pod-nch)*
+*Подробнее о кольцевой схеме перелинковки под НЧ-запросы [читайте в этой статье](https://aharito.ru/seo-prodvizhenie/shema-perelinkovki-stranic-sajta-pod-nch)*
+
+*Подробнее о кольцевой схеме перелинковки под НЧ-запросы [читайте на моем сайте](https://aharito.ru/modx-evolution/dlsiblings-podnimaem-sajt-po-nch-zaprosam)*
 
 ## Параметры сниппета:
 - **&prevQty** Кол-во соседей-предшественников, default 2
