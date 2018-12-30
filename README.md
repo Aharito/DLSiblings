@@ -7,7 +7,7 @@
 *Больше информации о параметрах [читайте на моем сайте >>](https://aharito.ru/modx-evolution/dlsiblings-podnimaem-sajt-po-nch-zaprosam)*
 
 ## Параметры сниппета:
-- **&renderSnippet** (DocLister|sgController) сниппет, используемый для вывода, default DocLister
+- **&renderSnippet** ( DocLister | sgController ) сниппет, используемый для вывода, default DocLister
 - **&prevQty** Кол-во соседей-предшественников, default 2
 - **&nextQty** Кол-во соседей-последователей, default 2
 - **все** остальные параметры и шаблоны **как в DocLister**
