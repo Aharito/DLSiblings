@@ -4,15 +4,16 @@
  * Вывод соседних ресурсов с шаблонизацией (множественная кольцевая перелинковка)
  * @category snippet
  *
- * @version   2.0
+ * @version   2.1
  * CMS version MODx Evo 1.4.7
- * @lastupdate 21/12/2017
+ * @lastupdate 30/12/2017
  *
  * @author Aharito https://aharito.ru
  * на основе DLPrevNext @author Agel_Nash <Agel_Nash@xaker.ru>
  * 
  * @internal    @installset base, sample 
  *
+ * @param string &renderSnippet (DocLister|sgController) сниппет, используемый для вывода, default DocLister
  * @param int &prevQty Кол-во соседей-предшественников, default 2
  * @param int &nextQty Кол-во соседей-последователей, default 2
  *
