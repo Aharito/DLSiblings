@@ -4,15 +4,16 @@
  * Вывод соседних ресурсов с шаблонизацией (множественная кольцевая перелинковка)
  * @category snippet
  *
- * @version   2.0
+ * @version   2.1
  * CMS version MODx Evo 1.4.7
- * @lastupdate 21/12/2017
+ * @lastupdate 30/12/2017
  *
  * @author Aharito https://aharito.ru
  * на основе DLPrevNext @author Agel_Nash <Agel_Nash@xaker.ru>
  * 
  * @internal    @installset base, sample 
  *
+ * @param string &renderSnippet (DocLister|sgController) сниппет, используемый для вывода, default DocLister
  * @param int &prevQty Кол-во соседей-предшественников, default 2
  * @param int &nextQty Кол-во соседей-последователей, default 2
  *
@@ -32,6 +33,7 @@ require_once($DLDir . "/lib/jsonHelper.class.php");
 $params = is_array($modx->Event->params) ? $modx->Event->params : array();
 
 // Параметры
+$renderSnippet = \APIhelpers::getkey($params, 'renderSnippet', 'DocLister');
 $prevQty = \APIhelpers::getkey($params, 'prevQty', 2);
 $nextQty = \APIhelpers::getkey($params, 'nextQty', 2);
 
@@ -86,9 +88,13 @@ if(($count - 1) <= $prevQty + $nextQty) { // Если длина выборки 
     $outArr = $siblings;
 }
 
-$documents = implode(",", $outArr);    
-$paramsRender = array_merge($params, array("idType" => "documents", "documents" => $documents)); // Параметры для рендеринга
+//Формируем список док-тов через запятую для подстановки в параметр &documents
+$documents = implode(",", $outArr);   
+
+// Параметры для рендеринга
+$paramsRender = array_merge($params, array("idType" => "documents", "documents" => $documents));
 unset($paramsRender["parents"]); // На всякий случай удаляем параметр parents
-$out = $modx->runSnippet("DocLister", $paramsRender);
+
+$out = $modx->runSnippet($renderSnippet, $paramsRender);
 
 return $out;
